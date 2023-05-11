@@ -2,9 +2,9 @@
 
 ## WikiRythm
 
-- My motivation in building a Day Schedule is to get better at JavaScripting.
-- I built this Work Day Schedule to allow myself to see my work day with colored time slots that are past, present, and future colored.
-- I learned a little JavaScripting.
+- Our motivation in building a WikiRythm page is to get better at JavaScripting/API's/HTML and CSS.
+- We built this WikiRythm to be able to search for artist, their latest 3 releases and see what they look like.
+- We learned how to work on a project as a group.
 
 ## User Story
 ```
@@ -27,7 +27,7 @@ THEN my searches persist
 
 ## Usage
 
-To use the , type an event in a time slot and click the save button. You can also see the current time in red. Future time will be in green and past time is in grey.  If you refresh the page you will retain your input from the storage.
+To use the , 
 
 https://kimberlyc1904.github.io/
 
