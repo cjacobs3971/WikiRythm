@@ -12,6 +12,9 @@
    // Get the entered artist name
    const artist = artistInput.value;
    
+     // Save the search to local storage
+  saveSearchToLocalStorage(artist);
+
    // Fetch artist ID from MusiXMatch API
    getArtistID(artist)
      .then(function(artistID) {
@@ -39,7 +42,12 @@
    // Reset the input field
    artistInput.value = '';
  });
-
+// Function to save search to local storage
+function saveSearchToLocalStorage(search) {
+  const searchHistory = getSearchHistoryFromLocalStorage();
+  searchHistory.push(search);
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+}
  // Function to fetch artist ID from MusiXMatch API
  async function getArtistID(artist) {
   const lastfmAPIKey = 'e8e8a3939846f3c18e37544d8148191d'; // Replace with your Last.fm API key
@@ -111,3 +119,25 @@ function displayAlbums(albums) {
  function displayBiography(biography) {
    bioDisplay.innerHTML = biography;
  }
+// Function to get search history from local storage
+function getSearchHistoryFromLocalStorage() {
+  let searchHistory = [];
+  const searchHistoryString = localStorage.getItem('searchHistory');
+  if (searchHistoryString) {
+    searchHistory = JSON.parse(searchHistoryString);
+  }
+  return searchHistory;
+}
+
+// Retrieve search history from local storage
+const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+// Display search history on the page
+const searchHistoryDisplay = document.getElementById('search-history-display');
+searchHistoryDisplay.innerHTML = '';
+searchHistory.forEach(function(searchTerm) {
+  const searchTermElement = document.createElement('div');
+  searchTermElement.classList.add('search-term');
+  searchTermElement.textContent = searchTerm;
+  searchHistoryDisplay.appendChild(searchTermElement);
+});
