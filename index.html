@@ -18,11 +18,13 @@
       <input class="rounded" type="text" id="artist-input" required>
       <button class="bg-gray-200 rounded-md m-2 font-medium" type="submit">Search</button>
     </form>
-    <div id="search-history-display"></div>
-    <div id="image-display"></div>
-    <div class="font-bold text-lg  " id="artist-name"></div>
-    <div class="font-semibold"  id="albums-display"></div>
-    <div id="bio-display"></div>
+    <section class="grid grid-flow-row grid-cols-3 gap-2">
+      <div id="image-display"></div>
+      <div class="border-2 rounded-md" id="search-history-display"></div>
+      <div class="font-bold text-lg border-2 rounded-md " id="artist-name"></div>
+      <div class="font-semibold border-2 rounded-md"  id="albums-display"></div>
+      <div class="border-2 rounded-md" id="bio-display"></div>
+    </section>
   </main>
 
   <script src="script.js"></script>
