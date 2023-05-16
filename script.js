@@ -140,6 +140,7 @@ function displayImage(imageSource) {
  //Function to fetch artist image from Wiki API
  async function getArtistImage(artist) {
   const response = await fetch('https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=pageimages&titles=' + artist +'&format=json&piprop=original');
+  imageDisplay.innerHTML = '';
 
   if (response.ok) {
     const data = await response.json();
