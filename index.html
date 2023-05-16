@@ -7,19 +7,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.15/tailwind.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <h1>Artist Search</h1>
+<body class="bg-indigo-400">
+  <header class="flex justify-center">
+    <h1 class="underline text-xl font-bold italic">WikiRhythm Artist Search</h1>
   </header>
 
-  <main>
+  <main class="font-serif">
     <form id="search-form">
-      <label for="artist-input">Enter an artist:</label>
-      <input type="text" id="artist-input" required>
-      <button type="submit">Search</button>
+      <label class="text-lg pr-3" for="artist-input">Enter an artist:</label>
+      <input class="rounded" type="text" id="artist-input" required>
+      <button class="bg-gray-200 rounded-md m-2 font-medium" type="submit">Search</button>
     </form>
-    <div id="artist-name"></div>
-    <div id="albums-display"></div>
+    <div class="font-bold text-lg  " id="artist-name"></div>
+    <div class="font-semibold"  id="albums-display"></div>
     <div id="bio-display"></div>
   </main>
 
