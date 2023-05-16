@@ -42,36 +42,39 @@
 
  // Function to fetch artist ID from MusiXMatch API
  async function getArtistID(artist) {
-   const musixmatchAPIKey = 'fceac98815fa8bde7e61e39fc83387ae'; // Replace with your MusiXMatch API key
-   console.log(artistInput.value, "1");
-   // Make the API call to MusiXMatch API to get the artist ID
-   const response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/artist.search?q_artist=${artistInput.value}&apikey=${musixmatchAPIKey}`);
-   if (response.ok) {
-     const data = await response.json();
-     const artistID = data.message.body.artist_list[0].artist.artist_id;
+  const lastfmAPIKey = 'e8e8a3939846f3c18e37544d8148191d'; // Replace with your Last.fm API key
+  
+  // Make the API call to Last.fm API to get the artist ID
+  const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(artist)}&api_key=${lastfmAPIKey}&format=json`);
+  
+  if (response.ok) {
+    const data = await response.json();
+    const artistID = data.results.artistmatches.artist[0].mbid;
+    
+    return artistID;
+  } else {
+    throw new Error('Error fetching artist ID');
+  }
+}
 
-     return artistID;
-   } else {
-     throw new Error('Error fetching artist ID');
-   }
- }
 
  // Function to fetch artist albums from MusiXMatch API
  async function getArtistAlbums(artistID) {
-   const musixmatchAPIKey = 'fceac98815fa8bde7e61e39fc83387ae';
+  const lastfmAPIKey = 'e8e8a3939846f3c18e37544d8148191d'; // Replace with your Last.fm API key
+  
+  // Make the API call to Last.fm API to get the artist's albums
+  const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&mbid=${artistID}&limit=3&api_key=${lastfmAPIKey}&format=json`);
+  
+  if (response.ok) {
+    const data = await response.json();
+    const albums = data.topalbums.album.map(album => album.name);
+    
+    return albums;
+  } else {
+    throw new Error('Error fetching artist albums');
+  }
+}
 
-   // Make the API call to MusiXMatch API to get the artist albums
-   const response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=${artistID}&s_release_date=desc&g_album_name=1&page_size=3&apikey=${musixmatchAPIKey}`);
-   
-   if (response.ok) {
-     const data = await response.json();
-     const albums = data.message.body.album_list.map(album => album.album);
-
-     return albums;
-   } else {
-     throw new Error('Error fetching artist albums');
-   }
- }
  // Function to fetch artist biography from Wikipedia API
  async function getArtistBiography(artist) {
    // Make the API call to Wikipedia API
@@ -91,19 +94,20 @@
 
    //display section from here on
 
- // Function to display artist albums on the page
- function displayAlbums(albums) {
-   albumsDisplay.innerHTML = '';
+// Function to display artist albums on the page
+function displayAlbums(albums) {
+  albumsDisplay.innerHTML = '';
 
-   albums.forEach(function(album) {
-     const albumElement = document.createElement('div');
-     albumElement.classList.add('album');
-     albumElement.textContent = album.album_name;
-     albumsDisplay.appendChild(albumElement);
-   });
- }
+  albums.forEach(function(album) {
+    const albumElement = document.createElement('div');
+    albumElement.classList.add('album');
+    albumElement.textContent = album; // Change 'album.album_name' to 'album'
+    albumsDisplay.appendChild(albumElement);
+  });
+}
+
 
  // Function to display artist biography on the page
  function displayBiography(biography) {
-   bioDisplay.textContent = biography;
+   bioDisplay.innerHTML = biography;
  }
