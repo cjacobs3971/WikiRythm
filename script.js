@@ -129,7 +129,8 @@ function displayImage(imageSource) {
  }
  //Function to fetch artist image from Wiki API
  async function getArtistImage(artist) {
-  const response = await fetch('https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=pageimages&titles=' + artist +'&format=json&piprop=original');
+  const artistName = makeUpperCase(artist)
+  const response = await fetch('https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=pageimages&titles=' + artistName +'&format=json&piprop=original');
   imageDisplay.innerHTML = '';
   if (response.ok) {
     const data = await response.json();
@@ -150,4 +151,12 @@ function getSearchHistoryFromLocalStorage() {
    searchHistory = JSON.parse(searchHistoryString);
  }
  return searchHistory;
+}
+//Function to make the first letter of each word to uppercase
+function makeUpperCase(str) {
+  var splitStr = str.toLowerCase().split(' ');
+  for (var i = 0; i < splitStr.length; i++) {
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+  }
+  return splitStr.join(' '); 
 }
