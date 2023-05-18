@@ -82,7 +82,7 @@ async function getArtistID(artist) {
 async function getArtistAlbums(artistID) {
  const lastfmAPIKey = 'e8e8a3939846f3c18e37544d8148191d'; // Replace with your Last.fm API key
  // Make the API call to Last.fm API to get the artist's albums
- const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&mbid=${artistID}&limit=5&api_key=${lastfmAPIKey}&format=json`);
+ const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&mbid=${artistID}&limit=10&api_key=${lastfmAPIKey}&format=json`);
  if (response.ok) {
    const data = await response.json();
    const albums = data.topalbums.album.map(album => album.name);
