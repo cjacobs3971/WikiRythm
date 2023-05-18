@@ -11,7 +11,6 @@
   <header class="flex justify-center">
     <h1 class="underline text-xl font-bold italic">WikiRhythm Artist Search</h1>
   </header>
-
   <main class="font-serif m-3">
     <form id="search-form">
       <label class="text-lg pr-3" for="artist-input">Enter an artist:</label>
@@ -19,14 +18,13 @@
       <button class="bg-gray-200 rounded-md m-2 font-medium" type="submit">Search</button>
     </form>
     <section class="grid grid-flow-row grid-cols-3 gap-2">
+      <div class="rounded-md" id="search-history-display"></div>
       <div id="image-display"></div>
-      <div class="border-2 rounded-md" id="search-history-display"></div>
       <div class="font-bold text-lg border-2 rounded-md " id="artist-name"></div>
       <div class="font-semibold border-2 rounded-md"  id="albums-display"></div>
-      <div class="border-2 rounded-md" id="bio-display"></div>
+      <div class="col-span-2" id="bio-display"></div>
     </section>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
