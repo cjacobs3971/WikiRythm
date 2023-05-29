@@ -145,7 +145,7 @@ async function displayAlbums(artist, albums) {
 
     const songline = document.createElement('h1');
     songline.classList.add('song-line');
-    songline.textContent = '5 Songs From Album';
+    songline.textContent = '-Songs From Album-';
     albumContainer.appendChild(songline);
 
     try {
