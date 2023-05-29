@@ -10,7 +10,7 @@ searchForm.addEventListener('submit', function(event) {
   event.preventDefault();
   artistName.textContent = artistInput.value;
   // Get the entered artist name
-  const artist = artistInput.value;
+  const artist = artistInput.value.trim();
 // Save the search to local storage
  saveSearchToLocalStorage(artist);
  // Retrieve search history from local storage
@@ -35,7 +35,7 @@ searchHistory.forEach(function(searchTerm) {
     })
     .then(function(albums) {
       // Display the top 3 albums on the page
-      displayAlbums(albums);
+      displayAlbums(artist, albums);
     })
     .catch(function(error) {
       console.log(error);
@@ -82,7 +82,7 @@ async function getArtistID(artist) {
 async function getArtistAlbums(artistID) {
  const lastfmAPIKey = 'e8e8a3939846f3c18e37544d8148191d'; // Replace with your Last.fm API key
  // Make the API call to Last.fm API to get the artist's albums
- const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&mbid=${artistID}&limit=10&api_key=${lastfmAPIKey}&format=json`);
+ const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&mbid=${artistID}&limit=3&api_key=${lastfmAPIKey}&format=json`);
  if (response.ok) {
    const data = await response.json();
    const albums = data.topalbums.album.map(album => album.name);
@@ -91,6 +91,27 @@ async function getArtistAlbums(artistID) {
    throw new Error('Error fetching artist albums');
  }
 }
+// Function to fetch the top songs for an album
+async function getAlbumSongs(artist, album) {
+  const apiKey = 'e8e8a3939846f3c18e37544d8148191d';
+
+  try {
+    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${apiKey}&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&limit=3&format=json`);
+    if (!response.ok) {
+      throw new Error('Error fetching album songs');
+    }
+    const data = await response.json();
+    const tracks = data.album.tracks.track;
+    const songs = tracks.map(track => track.name);
+    return songs;
+  } catch (error) {
+    throw new Error('Error fetching album songs');
+  }
+}
+
+
+
+
 // Function to fetch artist biography from Wikipedia API
 async function getArtistBiography(artist) {
   // Make the API call to Wikipedia API
@@ -107,15 +128,49 @@ async function getArtistBiography(artist) {
 }
   //display section from here on
 // Function to display artist albums on the page
-function displayAlbums(albums) {
- albumsDisplay.innerHTML = '';
- albums.forEach(function(album) {
-   const albumElement = document.createElement('div');
-   albumElement.classList.add('album');
-   albumElement.textContent = album; // Change 'album.album_name' to 'album'
-   albumsDisplay.appendChild(albumElement);
- });
+// Call getAlbumSongs within the displayAlbums function
+// Function to display artist albums on the page
+// Function to display artist albums on the page
+async function displayAlbums(artist, albums) {
+  albumsDisplay.innerHTML = '';
+
+  for (const album of albums) {
+    const albumContainer = document.createElement('div');
+    albumContainer.classList.add('album-container');
+
+    const albumNameElement = document.createElement('div');
+    albumNameElement.classList.add('album-name');
+    albumNameElement.textContent = album;
+    albumContainer.appendChild(albumNameElement);
+
+    const songline = document.createElement('h1');
+    songline.classList.add('song-line');
+    songline.textContent = '5 Songs From Album';
+    albumContainer.appendChild(songline);
+
+    try {
+      const songs = await getAlbumSongs(artist, album);
+
+      const songsElement = document.createElement('ul');
+      songsElement.classList.add('songs-list');
+      songs.slice(0, 5).forEach(function (song) {
+        const songElement = document.createElement('li');
+        songElement.textContent = song;
+        songsElement.appendChild(songElement);
+      });
+      albumContainer.appendChild(songsElement);
+    } catch (error) {
+      console.error(error);
+    }
+
+    albumsDisplay.appendChild(albumContainer);
+  }
 }
+
+
+
+
+
 // Function to display artist biography on the page
 function displayBiography(biography) {
   bioDisplay.innerHTML = biography;

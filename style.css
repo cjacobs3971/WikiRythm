@@ -1,0 +1,11 @@
+.album-name {
+    font-weight: bold;
+    color: #9d1414; /* Example color */
+  }
+  
+  .song-line {
+    font-weight: normal;
+    font-style: italic;
+    color: #3eec3e; /* Example color */
+  }
+  
